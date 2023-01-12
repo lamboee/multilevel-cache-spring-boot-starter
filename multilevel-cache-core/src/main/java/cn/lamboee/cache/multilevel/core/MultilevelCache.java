@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.concurrent.Callable;
 
 /**
- * Multi-level cache, L1, L2 must have a value
+ * Multi-level cache, L1, L2 must have value
  *
  * @author lambochen
  */
@@ -18,17 +18,18 @@ public abstract class MultilevelCache implements Cache {
 
     private static final Logger logger = LoggerFactory.getLogger(MultilevelCache.class);
 
-    protected Cache l1cache;
-    protected Cache l2cache;
+    protected final Cache l1cache;
+    protected final Cache l2cache;
+    protected final String name;
 
-    protected String name;
+    public MultilevelCache(String name, Cache l1cache, Cache l2cache) {
+        if (null == l1cache || null == l2cache) {
+            throw new IllegalArgumentException("l1cache or l2cache is null");
+        }
 
-    protected boolean existsL1cache() {
-        return null != l1cache;
-    }
-
-    protected boolean existsL2cache() {
-        return null != l2cache;
+        this.l1cache = l1cache;
+        this.l2cache = l2cache;
+        this.name = name;
     }
 
     @Override
@@ -43,22 +44,16 @@ public abstract class MultilevelCache implements Cache {
 
     @Override
     public ValueWrapper get(Object key) {
-        ValueWrapper valueWrapper = null;
-
-        if (existsL1cache()) {
-            valueWrapper = l1cache.get(key);
-            if (null != valueWrapper) {
-                return valueWrapper;
-            }
+        ValueWrapper valueWrapper = l1cache.get(key);
+        if (null != valueWrapper) {
+            return valueWrapper;
         }
 
-        if (existsL2cache()) {
-            valueWrapper = l2cache.get(key);
+        valueWrapper = l2cache.get(key);
 
-            // update l1 cache
-            if (null != valueWrapper && existsL1cache()) {
-                l1cache.put(key, valueWrapper.get());
-            }
+        // update l1 cache
+        if (null != valueWrapper) {
+            l1cache.put(key, valueWrapper.get());
         }
 
         return valueWrapper;
@@ -66,22 +61,16 @@ public abstract class MultilevelCache implements Cache {
 
     @Override
     public <T> T get(Object key, Class<T> type) {
-        T data = null;
-
-        if (existsL1cache()) {
-            data = l1cache.get(key, type);
-            if (null != data) {
-                return data;
-            }
+        T data = l1cache.get(key, type);
+        if (null != data) {
+            return data;
         }
 
-        if (existsL2cache()) {
-            data = l2cache.get(key, type);
+        data = l2cache.get(key, type);
 
-            // update l1 cache
-            if (null != data && existsL1cache()) {
-                l1cache.put(key, data);
-            }
+        // update l1 cache
+        if (null != data) {
+            l1cache.put(key, data);
         }
 
         return data;
@@ -89,22 +78,16 @@ public abstract class MultilevelCache implements Cache {
 
     @Override
     public <T> T get(Object key, Callable<T> valueLoader) {
-        T data = null;
-
-        if (existsL1cache()) {
-            data = l1cache.get(key, valueLoader);
-            if (null != data) {
-                return data;
-            }
+        T data = l1cache.get(key, valueLoader);
+        if (null != data) {
+            return data;
         }
 
-        if (existsL2cache()) {
-            data = l2cache.get(key, valueLoader);
+        data = l2cache.get(key, valueLoader);
 
-            // update l1 cache
-            if (null != data && existsL1cache()) {
-                l1cache.put(key, data);
-            }
+        // update l1 cache
+        if (null != data) {
+            l1cache.put(key, data);
         }
 
         return data;
@@ -112,13 +95,8 @@ public abstract class MultilevelCache implements Cache {
 
     @Override
     public void put(Object key, Object value) {
-        if (existsL1cache()) {
-            l1cache.put(key, value);
-        }
-
-        if (existsL2cache()) {
-            l2cache.put(key, value);
-        }
+        l1cache.put(key, value);
+        l2cache.put(key, value);
 
         publish(PutEvent.builder().nodeId(Nodes.currentNodeId()).key(key).value(value).build());
     }
@@ -177,26 +155,16 @@ public abstract class MultilevelCache implements Cache {
 
     @Override
     public void evict(Object key) {
-        if (existsL2cache()) {
-            l2cache.evict(key);
-        }
-
-        if (existsL1cache()) {
-            l1cache.evict(key);
-        }
+        l2cache.evict(key);
+        l1cache.evict(key);
 
         publish(EvictEvent.builder().nodeId(Nodes.currentNodeId()).key(key).build());
     }
 
     @Override
     public void clear() {
-        if (existsL2cache()) {
-            l2cache.clear();
-        }
-
-        if (existsL1cache()) {
-            l1cache.clear();
-        }
+        l2cache.clear();
+        l1cache.clear();
 
         publish(ClearEvent.builder().nodeId(Nodes.currentNodeId()).build());
     }
