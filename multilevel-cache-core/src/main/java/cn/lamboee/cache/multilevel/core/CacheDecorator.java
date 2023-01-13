@@ -1,8 +1,10 @@
 package cn.lamboee.cache.multilevel.core;
 
 /**
+ * cache decorator
+ *
  * @author lambochen@yeah.net
- * @see MultilevelCache
  */
-public class MultilevelCacheManager {
+public interface CacheDecorator {
+
 }

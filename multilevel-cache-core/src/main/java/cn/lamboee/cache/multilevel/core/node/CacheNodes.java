@@ -1,11 +1,11 @@
-package cn.lamboee.cache.multilevel.core;
+package cn.lamboee.cache.multilevel.core.node;
 
 /**
  * cache node utils
  *
- * @author lambochen
+ * @author lambochen@yeah.net
  */
-public class Nodes {
+public class CacheNodes {
 
     /**
      * current node id
@@ -17,7 +17,7 @@ public class Nodes {
     }
 
     public static void init(String nodeId) {
-        Nodes.NODE_ID = nodeId;
+        CacheNodes.NODE_ID = nodeId;
     }
 
 }
