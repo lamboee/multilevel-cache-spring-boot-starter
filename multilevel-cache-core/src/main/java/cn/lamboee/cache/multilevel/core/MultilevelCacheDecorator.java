@@ -6,6 +6,9 @@ import cn.lamboee.cache.multilevel.core.notice.EvictEvent;
 import cn.lamboee.cache.multilevel.core.notice.NoticeWrapper;
 import cn.lamboee.cache.multilevel.core.notice.PutEvent;
 import org.springframework.cache.Cache;
+import org.springframework.cache.support.AbstractValueAdaptingCache;
+
+import java.util.concurrent.Callable;
 
 /**
  * multi level cache decorator
@@ -17,15 +20,33 @@ import org.springframework.cache.Cache;
  * @see NoticeWrapper
  * @see CacheNodeWrapper
  */
-public abstract class MultilevelCacheDecorator implements Cache, CacheDecorator, NoticeWrapper, CacheNodeWrapper {
+public abstract class MultilevelCacheDecorator extends AbstractValueAdaptingCache implements Cache, CacheDecorator, NoticeWrapper, CacheNodeWrapper {
 
     protected Cache cache;
 
-    public MultilevelCacheDecorator(Cache cache) {
-        if (null == cache) {
-            throw new IllegalArgumentException("cache is null");
-        }
+    public MultilevelCacheDecorator(boolean allowNullValues, Cache cache) {
+        super(allowNullValues);
         this.cache = cache;
+    }
+
+    @Override
+    public String getName() {
+        return cache.getName();
+    }
+
+    @Override
+    public Object getNativeCache() {
+        return cache;
+    }
+
+    @Override
+    protected Object lookup(Object key) {
+        return cache.get(key);
+    }
+
+    @Override
+    public <T> T get(Object key, Callable<T> valueLoader) {
+        return cache.get(key, valueLoader);
     }
 
     @Override

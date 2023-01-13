@@ -18,8 +18,7 @@ public interface MultilevelCacheManager extends CacheManager {
             return ((MultilevelCache) cache).getL1cache();
         }
 
-        // fast fail
-        throw new RuntimeException("not MultilevelCache");
+        return notMultilevelCacheProcess(cache);
     }
 
     default Cache getL2cache(String name) {
@@ -28,8 +27,12 @@ public interface MultilevelCacheManager extends CacheManager {
             return ((MultilevelCache) cache).getL2cache();
         }
 
+        return notMultilevelCacheProcess(cache);
+    }
+
+    default Cache notMultilevelCacheProcess(Cache cache) {
         // fast fail
-        throw new RuntimeException("not MultilevelCache");
+        throw new RuntimeException("this cache is not MultilevelCache");
     }
 
 }
