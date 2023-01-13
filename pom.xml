@@ -5,8 +5,8 @@
 
     <parent>
         <groupId>cn.lamboee</groupId>
-        <artifactId>lamboee-boot-bom-spring-boot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>lamboee-boot-parent</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
 
     <groupId>cn.lamboee.cache</groupId>
@@ -20,27 +20,12 @@
 
     <modules>
         <module>multilevel-cache-core</module>
+        <module>multilevel-cache-support</module>
     </modules>
-
-    <properties>
-        <lamboee-boot.version>0.0.1-SNAPSHOT</lamboee-boot.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cn.lamboee</groupId>
-                <artifactId>lamboee-boot-bom-spring-boot</artifactId>
-                <version>${lamboee-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <developers>
         <developer>
-            <name>LamboChen</name>
+            <name>lambochen@yeah.net</name>
             <email>lambochen@yeah.net</email>
         </developer>
     </developers>

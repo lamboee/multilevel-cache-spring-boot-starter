@@ -9,7 +9,7 @@ import java.util.concurrent.Callable;
  *
  * @author lambochen@yeah.net
  */
-public abstract class MultilevelCache implements Cache {
+public class MultilevelCache implements Cache {
 
     protected final Cache l1cache;
     protected final Cache l2cache;
@@ -23,6 +23,14 @@ public abstract class MultilevelCache implements Cache {
         this.l1cache = l1cache;
         this.l2cache = l2cache;
         this.name = name;
+    }
+
+    public Cache getL1cache() {
+        return l1cache;
+    }
+
+    public Cache getL2cache() {
+        return l2cache;
     }
 
     @Override
@@ -88,8 +96,8 @@ public abstract class MultilevelCache implements Cache {
 
     @Override
     public void put(Object key, Object value) {
-        l1cache.put(key, value);
         l2cache.put(key, value);
+        l1cache.put(key, value);
     }
 
     @Override

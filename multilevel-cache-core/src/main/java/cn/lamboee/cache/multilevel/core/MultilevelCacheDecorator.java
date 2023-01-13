@@ -5,23 +5,19 @@ import cn.lamboee.cache.multilevel.core.notice.ClearEvent;
 import cn.lamboee.cache.multilevel.core.notice.EvictEvent;
 import cn.lamboee.cache.multilevel.core.notice.NoticeWrapper;
 import cn.lamboee.cache.multilevel.core.notice.PutEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 
 /**
  * multi level cache decorator
  *
  * @author lambochen@yeah.net
- * @see CacheDecorator
  * @see Cache
+ * @see CacheDecorator
  * @see MultilevelCache
  * @see NoticeWrapper
  * @see CacheNodeWrapper
  */
 public abstract class MultilevelCacheDecorator implements Cache, CacheDecorator, NoticeWrapper, CacheNodeWrapper {
-
-    private static final Logger logger = LoggerFactory.getLogger(MultilevelCache.class);
 
     protected Cache cache;
 
