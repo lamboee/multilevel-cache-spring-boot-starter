@@ -11,9 +11,9 @@ public interface CacheNodeWrapper extends Supplier<String> {
 
     @Override
     default String get() {
-        return getNodeId();
+        return nodeId();
     }
 
-    String getNodeId();
+    String nodeId();
 
 }

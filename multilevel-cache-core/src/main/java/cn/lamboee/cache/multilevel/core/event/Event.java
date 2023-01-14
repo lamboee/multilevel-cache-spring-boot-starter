@@ -1,4 +1,4 @@
-package cn.lamboee.cache.multilevel.core.notice;
+package cn.lamboee.cache.multilevel.core.event;
 
 import java.io.Serializable;
 
@@ -8,4 +8,7 @@ import java.io.Serializable;
  * @author lambochen@yeah.net
  */
 public interface Event extends Serializable {
+
+    EventType type();
+
 }

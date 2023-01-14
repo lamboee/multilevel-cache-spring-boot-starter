@@ -1,4 +1,4 @@
-package cn.lamboee.cache.multilevel.core.notice;
+package cn.lamboee.cache.multilevel.core.event;
 
 /**
  * @author lambochen@yeah.net

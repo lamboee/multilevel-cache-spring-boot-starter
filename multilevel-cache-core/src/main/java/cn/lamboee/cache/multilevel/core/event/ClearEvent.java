@@ -1,4 +1,4 @@
-package cn.lamboee.cache.multilevel.core.notice;
+package cn.lamboee.cache.multilevel.core.event;
 
 import cn.lamboee.cache.multilevel.core.node.CacheNodeWrapper;
 
@@ -14,14 +14,27 @@ public class ClearEvent implements Event, CacheNodeWrapper {
     @Serial
     private static final long serialVersionUID = -4798983359896640532L;
 
-    private final String nodeId;
+    private String nodeId;
 
     public ClearEvent(String nodeId) {
         this.nodeId = nodeId;
     }
 
-    @Override
     public String getNodeId() {
         return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    @Override
+    public String nodeId() {
+        return nodeId;
+    }
+
+    @Override
+    public EventType type() {
+        return EventType.CLEAR;
     }
 }

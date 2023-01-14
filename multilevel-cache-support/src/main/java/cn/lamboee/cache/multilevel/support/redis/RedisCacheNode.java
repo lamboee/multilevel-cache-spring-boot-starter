@@ -1,16 +1,35 @@
 package cn.lamboee.cache.multilevel.support.redis;
 
+import cn.lamboee.cache.multilevel.core.node.CacheNodeIdGenerator;
+import org.springframework.data.redis.core.RedisTemplate;
+
 /**
  * @author lambochen@yeah.net
  */
 public class RedisCacheNode {
 
-    /**
-     * cache node id
-     */
-    private static String ID;
-
     public static String id() {
-        return ID;
+        return RedisCacheNodeIdGenerator.getCurrentNodeId();
+    }
+
+    public static class RedisCacheNodeIdGenerator implements CacheNodeIdGenerator {
+
+        private static String nodeId;
+
+        public RedisCacheNodeIdGenerator(RedisClient redisClient) {
+            nodeId = String.valueOf(
+                    ((RedisTemplate<Object, Object>) redisClient.redisTemplate()).opsForValue()
+                            .increment(redisClient.getNodeIdGeneratorRedisKey())
+            );
+        }
+
+        @Override
+        public String get() {
+            return nodeId;
+        }
+
+        public static String getCurrentNodeId() {
+            return nodeId;
+        }
     }
 }

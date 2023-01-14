@@ -1,11 +1,11 @@
-package cn.lamboee.cache.multilevel.core.notice;
+package cn.lamboee.cache.multilevel.core.event;
 
 import cn.lamboee.cache.multilevel.core.node.CacheNodeWrapper;
 
 import java.io.Serial;
 
 /**
- * evit key operation event
+ * evict key operation event
  *
  * @author lambochen@yeah.net
  */
@@ -14,8 +14,8 @@ public class EvictEvent implements Event, CacheNodeWrapper {
     @Serial
     private static final long serialVersionUID = 8144152567656271015L;
 
-    private final String nodeId;
-    private final Object key;
+    private String nodeId;
+    private Object key;
 
     public EvictEvent(String nodeId, Object key) {
         this.nodeId = nodeId;
@@ -23,7 +23,12 @@ public class EvictEvent implements Event, CacheNodeWrapper {
     }
 
     @Override
-    public String getNodeId() {
+    public EventType type() {
+        return EventType.EVICT;
+    }
+
+    @Override
+    public String nodeId() {
         return nodeId;
     }
 
@@ -31,4 +36,15 @@ public class EvictEvent implements Event, CacheNodeWrapper {
         return key;
     }
 
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public void setKey(Object key) {
+        this.key = key;
+    }
 }

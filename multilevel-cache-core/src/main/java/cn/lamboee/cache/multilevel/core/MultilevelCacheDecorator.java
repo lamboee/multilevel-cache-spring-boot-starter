@@ -1,12 +1,12 @@
 package cn.lamboee.cache.multilevel.core;
 
+import cn.lamboee.cache.multilevel.core.event.ClearEvent;
+import cn.lamboee.cache.multilevel.core.event.Event;
+import cn.lamboee.cache.multilevel.core.event.EvictEvent;
+import cn.lamboee.cache.multilevel.core.event.NoticeWrapper;
+import cn.lamboee.cache.multilevel.core.event.PutEvent;
 import cn.lamboee.cache.multilevel.core.node.CacheNodeWrapper;
-import cn.lamboee.cache.multilevel.core.notice.ClearEvent;
-import cn.lamboee.cache.multilevel.core.notice.EvictEvent;
-import cn.lamboee.cache.multilevel.core.notice.NoticeWrapper;
-import cn.lamboee.cache.multilevel.core.notice.PutEvent;
 import org.springframework.cache.Cache;
-import org.springframework.cache.support.AbstractValueAdaptingCache;
 
 import java.util.concurrent.Callable;
 
@@ -20,14 +20,9 @@ import java.util.concurrent.Callable;
  * @see NoticeWrapper
  * @see CacheNodeWrapper
  */
-public abstract class MultilevelCacheDecorator extends AbstractValueAdaptingCache implements Cache, CacheDecorator, NoticeWrapper, CacheNodeWrapper {
+public abstract class MultilevelCacheDecorator implements Cache, CacheDecorator, NoticeWrapper, CacheNodeWrapper {
 
     protected Cache cache;
-
-    public MultilevelCacheDecorator(boolean allowNullValues, Cache cache) {
-        super(allowNullValues);
-        this.cache = cache;
-    }
 
     @Override
     public String getName() {
@@ -40,8 +35,13 @@ public abstract class MultilevelCacheDecorator extends AbstractValueAdaptingCach
     }
 
     @Override
-    protected Object lookup(Object key) {
+    public ValueWrapper get(Object key) {
         return cache.get(key);
+    }
+
+    @Override
+    public <T> T get(Object key, Class<T> type) {
+        return cache.get(key, type);
     }
 
     @Override
@@ -53,20 +53,38 @@ public abstract class MultilevelCacheDecorator extends AbstractValueAdaptingCach
     public void put(Object key, Object value) {
         cache.put(key, value);
 
-        publish(new PutEvent(getNodeId(), key, value));
+        publish(new PutEvent(nodeId(), key, value));
     }
 
     @Override
     public void evict(Object key) {
         cache.evict(key);
 
-        publish(new EvictEvent(getNodeId(), key));
+        publish(new EvictEvent(nodeId(), key));
     }
 
     @Override
     public void clear() {
         cache.clear();
 
-        publish(new ClearEvent(getNodeId()));
+        publish(new ClearEvent(nodeId()));
     }
+
+    @Override
+    public void publish(PutEvent event) {
+        publishEventMessage(nodeId(), cache.getName(), event);
+    }
+
+    @Override
+    public void publish(EvictEvent event) {
+        publishEventMessage(nodeId(), cache.getName(), event);
+    }
+
+    @Override
+    public void publish(ClearEvent event) {
+        publishEventMessage(nodeId(), cache.getName(), event);
+    }
+
+    protected abstract void publishEventMessage(String nodeId, String name, Event event);
+
 }
