@@ -3,9 +3,10 @@ package cn.lamboee.cache.multilevel.core;
 import cn.lamboee.cache.multilevel.core.notify.ClearEvent;
 import cn.lamboee.cache.multilevel.core.notify.EvictEvent;
 import cn.lamboee.cache.multilevel.core.notify.Notifiable;
-import cn.lamboee.cache.multilevel.core.notify.NotifyWrapper;
+import cn.lamboee.cache.multilevel.core.notify.Publisher;
 import cn.lamboee.cache.multilevel.core.notify.PutEvent;
 import cn.lamboee.cache.multilevel.core.node.CacheNodeWrapper;
+import cn.lamboee.cache.multilevel.core.notify.Subscriber;
 import org.springframework.cache.Cache;
 
 import java.util.concurrent.Callable;
@@ -21,7 +22,7 @@ import java.util.concurrent.Callable;
  * @see CacheNodeWrapper
  * @see Notifiable
  */
-public class MultilevelCacheDecorator implements Cache, CacheDecorator, NotifyWrapper, CacheNodeWrapper {
+public class MultilevelCacheDecorator implements Cache, CacheDecorator, CacheNodeWrapper, Publisher, Subscriber {
 
     protected Cache cache;
     protected Notifiable notifiable;

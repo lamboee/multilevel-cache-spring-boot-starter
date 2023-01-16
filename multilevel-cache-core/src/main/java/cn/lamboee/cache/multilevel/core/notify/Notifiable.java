@@ -5,6 +5,6 @@ import cn.lamboee.cache.multilevel.core.node.CacheNodeWrapper;
 /**
  * @author lambochen@yeah.net
  */
-public interface Notifiable extends NotifyWrapper, CacheNodeWrapper {
+public interface Notifiable extends CacheNodeWrapper, Publisher, Subscriber {
 
 }

@@ -19,7 +19,7 @@ public class RedisCacheNode {
         public RedisCacheNodeIdGenerator(RedisClient redisClient) {
             nodeId = String.valueOf(
                     ((RedisTemplate<Object, Object>) redisClient.redisTemplate()).opsForValue()
-                            .increment(redisClient.getNodeIdGeneratorRedisKey())
+                            .increment(redisClient.getNodeIdGeneratorKey())
             );
         }
 

@@ -3,31 +3,32 @@ package cn.lamboee.cache.multilevel.core.notify;
 /**
  * @author lambochen@yeah.net
  */
-public interface SubscribeWrapper extends Wrapper {
+public interface Publisher extends Wrapper {
 
-    default void subscribe(Event event) {
+    default void publish(Event event) {
         if (event instanceof PutEvent) {
-            subscribe((PutEvent) event);
+            publish((PutEvent) event);
             return;
         }
 
         if (event instanceof EvictEvent) {
-            subscribe((EvictEvent) event);
+            publish((EvictEvent) event);
             return;
         }
 
         if (event instanceof ClearEvent) {
-            subscribe((ClearEvent) event);
+            publish((ClearEvent) event);
             return;
         }
 
         throw new UnsupportedOperationException("Unsupported Event");
     }
 
-    void subscribe(PutEvent event);
+    void publish(PutEvent event);
 
-    void subscribe(EvictEvent event);
+    void publish(EvictEvent event);
 
-    void subscribe(ClearEvent event);
+    void publish(ClearEvent event);
+
 
 }

@@ -31,6 +31,15 @@ public class EventSerializers {
         }
 
         EventType type = event.type();
+        return lookup(type);
+    }
+
+    public static Optional<EventSerializer<?>> lookup(String event) {
+        EventType type = EventType.ofEvent(event);
+        return lookup(type);
+    }
+
+    public static Optional<EventSerializer<?>> lookup(EventType type) {
         if (type.isClear()) {
             return Optional.of(clearEventSerializer());
         }
@@ -59,4 +68,7 @@ public class EventSerializers {
         return new String(eventSerialized);
     }
 
+    public static Event deserialize(String eventType, String data) {
+        return lookup(eventType).map(serializer -> serializer.deserialize(data.getBytes())).orElse(null);
+    }
 }
