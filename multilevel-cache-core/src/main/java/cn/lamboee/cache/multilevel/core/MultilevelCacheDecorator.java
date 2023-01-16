@@ -1,28 +1,35 @@
 package cn.lamboee.cache.multilevel.core;
 
-import cn.lamboee.cache.multilevel.core.event.ClearEvent;
-import cn.lamboee.cache.multilevel.core.event.Event;
-import cn.lamboee.cache.multilevel.core.event.EvictEvent;
-import cn.lamboee.cache.multilevel.core.event.NoticeWrapper;
-import cn.lamboee.cache.multilevel.core.event.PutEvent;
+import cn.lamboee.cache.multilevel.core.notify.ClearEvent;
+import cn.lamboee.cache.multilevel.core.notify.EvictEvent;
+import cn.lamboee.cache.multilevel.core.notify.Notifiable;
+import cn.lamboee.cache.multilevel.core.notify.NotifyWrapper;
+import cn.lamboee.cache.multilevel.core.notify.PutEvent;
 import cn.lamboee.cache.multilevel.core.node.CacheNodeWrapper;
 import org.springframework.cache.Cache;
 
 import java.util.concurrent.Callable;
 
 /**
- * multi level cache decorator
+ * notifiable local cache decorator
  *
  * @author lambochen@yeah.net
  * @see Cache
  * @see CacheDecorator
  * @see MultilevelCache
- * @see NoticeWrapper
+ * @see NotifyWrapper
  * @see CacheNodeWrapper
+ * @see Notifiable
  */
-public abstract class MultilevelCacheDecorator implements Cache, CacheDecorator, NoticeWrapper, CacheNodeWrapper {
+public class MultilevelCacheDecorator implements Cache, CacheDecorator, NotifyWrapper, CacheNodeWrapper {
 
     protected Cache cache;
+    protected Notifiable notifiable;
+
+    public MultilevelCacheDecorator(Cache cache, Notifiable notifiable) {
+        this.cache = cache;
+        this.notifiable = notifiable;
+    }
 
     @Override
     public String getName() {
@@ -72,19 +79,36 @@ public abstract class MultilevelCacheDecorator implements Cache, CacheDecorator,
 
     @Override
     public void publish(PutEvent event) {
-        publishEventMessage(nodeId(), cache.getName(), event);
+        notifiable.publish(event);
     }
 
     @Override
     public void publish(EvictEvent event) {
-        publishEventMessage(nodeId(), cache.getName(), event);
+        notifiable.publish(event);
     }
 
     @Override
     public void publish(ClearEvent event) {
-        publishEventMessage(nodeId(), cache.getName(), event);
+        notifiable.publish(event);
     }
 
-    protected abstract void publishEventMessage(String nodeId, String name, Event event);
+    @Override
+    public void subscribe(PutEvent event) {
+        notifiable.subscribe(event);
+    }
 
+    @Override
+    public void subscribe(EvictEvent event) {
+        notifiable.subscribe(event);
+    }
+
+    @Override
+    public void subscribe(ClearEvent event) {
+        notifiable.subscribe(event);
+    }
+
+    @Override
+    public String nodeId() {
+        return notifiable.nodeId();
+    }
 }

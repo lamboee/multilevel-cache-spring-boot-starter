@@ -1,6 +1,6 @@
-package cn.lamboee.cache.multilevel.core.event.serialize;
+package cn.lamboee.cache.multilevel.core.notify.serialize;
 
-import cn.lamboee.cache.multilevel.core.event.EvictEvent;
+import cn.lamboee.cache.multilevel.core.notify.EvictEvent;
 
 /**
  * @author lambochen@yeah.net

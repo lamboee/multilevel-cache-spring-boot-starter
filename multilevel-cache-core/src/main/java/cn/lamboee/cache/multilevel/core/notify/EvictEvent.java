@@ -1,30 +1,30 @@
-package cn.lamboee.cache.multilevel.core.event;
+package cn.lamboee.cache.multilevel.core.notify;
 
 import cn.lamboee.cache.multilevel.core.node.CacheNodeWrapper;
 
 import java.io.Serial;
 
 /**
- * put key/value operation event
+ * evict key operation event
  *
  * @author lambochen@yeah.net
  */
-public class PutEvent implements Event, CacheNodeWrapper {
+public class EvictEvent implements Event, CacheNodeWrapper {
 
     @Serial
-    private static final long serialVersionUID = -2041822338226041360L;
+    private static final long serialVersionUID = 8144152567656271015L;
 
     private String nodeId;
     private Object key;
-    private Object value;
 
-    public PutEvent() {
-    }
-
-    public PutEvent(String nodeId, Object key, Object value) {
+    public EvictEvent(String nodeId, Object key) {
         this.nodeId = nodeId;
         this.key = key;
-        this.value = value;
+    }
+
+    @Override
+    public EventType type() {
+        return EventType.EVICT;
     }
 
     @Override
@@ -34,10 +34,6 @@ public class PutEvent implements Event, CacheNodeWrapper {
 
     public Object getKey() {
         return key;
-    }
-
-    public Object getValue() {
-        return value;
     }
 
     public String getNodeId() {
@@ -50,14 +46,5 @@ public class PutEvent implements Event, CacheNodeWrapper {
 
     public void setKey(Object key) {
         this.key = key;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    @Override
-    public EventType type() {
-        return EventType.PUT;
     }
 }

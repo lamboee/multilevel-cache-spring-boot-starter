@@ -1,6 +1,6 @@
 package cn.lamboee.cache.multilevel.support.redis;
 
-import cn.lamboee.cache.multilevel.core.event.EventMessage;
+import cn.lamboee.cache.multilevel.core.notify.EventMessage;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 

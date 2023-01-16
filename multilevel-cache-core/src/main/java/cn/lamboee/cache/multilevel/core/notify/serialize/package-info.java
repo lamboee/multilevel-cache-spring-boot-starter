@@ -1,4 +1,4 @@
-package cn.lamboee.cache.multilevel.core.event.serialize;
+package cn.lamboee.cache.multilevel.core.notify.serialize;
 /**
  * event serialize
  *

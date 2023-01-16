@@ -1,9 +1,9 @@
-package cn.lamboee.cache.multilevel.core.event;
+package cn.lamboee.cache.multilevel.core.notify;
 
 /**
  * @author lambochen@yeah.net
  */
-public interface SubscribeWrapper extends Wrapper{
+public interface SubscribeWrapper extends Wrapper {
 
     default void subscribe(Event event) {
         if (event instanceof PutEvent) {

@@ -1,7 +1,7 @@
-package cn.lamboee.cache.multilevel.core.event.serialize;
+package cn.lamboee.cache.multilevel.core.notify.serialize;
 
-import cn.lamboee.cache.multilevel.core.event.Event;
-import cn.lamboee.cache.multilevel.core.event.EventType;
+import cn.lamboee.cache.multilevel.core.notify.Event;
+import cn.lamboee.cache.multilevel.core.notify.EventType;
 
 import java.util.Optional;
 

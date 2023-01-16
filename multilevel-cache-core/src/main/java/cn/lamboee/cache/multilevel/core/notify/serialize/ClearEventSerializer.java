@@ -1,6 +1,6 @@
-package cn.lamboee.cache.multilevel.core.event.serialize;
+package cn.lamboee.cache.multilevel.core.notify.serialize;
 
-import cn.lamboee.cache.multilevel.core.event.ClearEvent;
+import cn.lamboee.cache.multilevel.core.notify.ClearEvent;
 
 /**
  * @author lambochen@yeah.net

@@ -9,6 +9,8 @@ import java.util.function.Supplier;
  */
 public interface CacheNodeWrapper extends Supplier<String> {
 
+    String DEFAULT_NODE_ID = "1";
+
     @Override
     default String get() {
         return nodeId();
