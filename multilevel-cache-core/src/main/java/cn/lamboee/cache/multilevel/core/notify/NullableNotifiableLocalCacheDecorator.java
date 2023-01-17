@@ -7,8 +7,10 @@ import org.springframework.cache.Cache;
  * empty decorator
  *
  * @author lambochen@yeah.net
+ * @see NotifiableCacheDecorator
+ * @see NotifiableLocalCacheDecorator
  */
-public class NullableNotifiableLocalCacheDecorator extends NotifiableCacheDecorator {
+public class NullableNotifiableLocalCacheDecorator extends NotifiableLocalCacheDecorator {
 
     public NullableNotifiableLocalCacheDecorator(Cache cache) {
         super(cache);
