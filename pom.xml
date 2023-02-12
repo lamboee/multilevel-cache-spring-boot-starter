@@ -20,6 +20,7 @@
 
     <modules>
         <module>multilevel-cache-core</module>
+        <module>multilevel-cache-samples</module>
         <module>multilevel-cache-support</module>
     </modules>
 
