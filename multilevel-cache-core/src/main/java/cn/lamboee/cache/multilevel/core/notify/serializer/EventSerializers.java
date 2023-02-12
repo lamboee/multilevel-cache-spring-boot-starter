@@ -1,7 +1,9 @@
-package cn.lamboee.cache.multilevel.core.notify.serialize;
+package cn.lamboee.cache.multilevel.core.notify.serializer;
 
 import cn.lamboee.cache.multilevel.core.notify.Event;
 import cn.lamboee.cache.multilevel.core.notify.EventType;
+import cn.lamboee.cache.multilevel.core.serializer.Serializer;
+import cn.lamboee.cache.multilevel.core.serializer.support.FastJsonSerializer;
 
 import java.util.Optional;
 
@@ -12,16 +14,45 @@ import java.util.Optional;
  */
 public class EventSerializers {
 
+    private static ClearEventSerializer clearEventSerializer;
+    private static PutEventSerializer putEventSerializer;
+    private static EvictEventSerializer evictEventSerializer;
+    /**
+     * default serializer
+     */
+    private static Serializer _serializer;
+
+    public EventSerializers() {
+    }
+
+    public EventSerializers(Serializer serializer) {
+        _serializer = serializer;
+    }
+
+    static {
+        initSerializer();
+    }
+
+    private static void initSerializer() {
+        if (null == _serializer) {
+            _serializer = new FastJsonSerializer();
+        }
+
+        clearEventSerializer = new ClearEventSerializer(_serializer);
+        putEventSerializer = new PutEventSerializer(_serializer);
+        evictEventSerializer = new EvictEventSerializer(_serializer);
+    }
+
     public static ClearEventSerializer clearEventSerializer() {
-        return ClearEventSerializer.getInstance();
+        return clearEventSerializer;
     }
 
     public static PutEventSerializer putEventSerializer() {
-        return PutEventSerializer.getInstance();
+        return putEventSerializer;
     }
 
     public static EvictEventSerializer evictEventSerializer() {
-        return EvictEventSerializer.getInstance();
+        return evictEventSerializer;
     }
 
     public static Optional<EventSerializer<?>> lookup(Event event) {

@@ -18,7 +18,6 @@ import java.util.concurrent.Callable;
  * @see Cache
  * @see CacheDecorator
  * @see MultilevelCache
- * @see NotifyWrapper
  * @see CacheNodeWrapper
  * @see Notifiable
  */

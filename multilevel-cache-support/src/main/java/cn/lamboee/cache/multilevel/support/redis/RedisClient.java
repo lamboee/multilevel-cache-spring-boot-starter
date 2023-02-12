@@ -2,7 +2,7 @@ package cn.lamboee.cache.multilevel.support.redis;
 
 import cn.lamboee.cache.multilevel.core.notify.Event;
 import cn.lamboee.cache.multilevel.core.notify.EventMessage;
-import cn.lamboee.cache.multilevel.core.notify.serialize.EventSerializers;
+import cn.lamboee.cache.multilevel.core.notify.serializer.EventSerializers;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 

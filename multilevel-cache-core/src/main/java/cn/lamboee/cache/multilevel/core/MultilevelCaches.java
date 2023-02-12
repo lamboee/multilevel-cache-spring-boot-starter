@@ -3,7 +3,7 @@ package cn.lamboee.cache.multilevel.core;
 import cn.lamboee.cache.multilevel.core.notify.Event;
 import cn.lamboee.cache.multilevel.core.notify.EventMessage;
 import cn.lamboee.cache.multilevel.core.notify.Subscriber;
-import cn.lamboee.cache.multilevel.core.notify.serialize.EventSerializers;
+import cn.lamboee.cache.multilevel.core.notify.serializer.EventSerializers;
 
 /**
  * multilevel cache utils
